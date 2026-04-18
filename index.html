@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A cinematic romantic birthday celebration" />
+  <title>Happy Birthday, My Love</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Dancing+Script:wght@400;600;700&family=Great+Vibes&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ====== VAN GOGH OPENING SCENE ====== -->
+  <div id="vg-scene" class="vg-scene">
+    <canvas id="vg-canvas" aria-hidden="true"></canvas>
+    <div class="vg-vignette" aria-hidden="true"></div>
+    <div class="vg-letter">
+      <p class="vg-letter__to">For Booboo</p>
+      <p class="vg-letter__wish">Happy Birthday ❤️</p>
+      <span class="vg-letter__rule" aria-hidden="true"></span>
+      <p class="vg-letter__body">
+        On this beautiful day,<br>
+        I want you to know<br>
+        how deeply you are loved.
+      </p>
+      <p class="vg-letter__sign">With all my heart ♡</p>
+    </div>
+    <button class="vg-enter" id="vg-enter" aria-label="Enter the celebration">
+      Begin&ensp;&#8595;
+    </button>
+  </div>
+
+  <!-- Loading Screen -->
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader__ring"></div>
+    <p class="loader__text">A moment for you&hellip;</p>
+  </div>
+
+  <!-- Particle Canvas -->
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <!-- ====== HERO ====== -->
+  <section id="hero" class="hero section">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <span class="hero__eyebrow reveal">Today is your day</span>
+      <h1 class="hero__title reveal">
+        <span class="hero__title-line">Happy</span>
+        <span class="hero__title-line hero__title-line--italic">Birthday</span>
+      </h1>
+      <p class="hero__sub reveal">Every year you make this world more beautiful.</p>
+      <div class="hero__scroll-hint reveal" aria-label="Scroll down">
+        <span class="hero__scroll-dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ENVELOPE ====== -->
+  <section id="envelope-section" class="env-section section">
+    <h2 class="section-title reveal">A Letter, Just for You</h2>
+    <p class="env-hint reveal">&#10022; Click to open &#10022;</p>
+
+    <div class="env-scene" id="env-scene">
+
+      <!-- env-zoom: handles the camera scale-in independently of the float -->
+      <div class="env-zoom" id="env-zoom">
+        <div class="env-float" id="env-float">
+
+          <div class="env-tilt" id="env-tilt"
+               role="button" tabindex="0"
+               aria-label="Open the envelope"
+               aria-pressed="false">
+
+            <!-- Warm inner light — radiates upward as the flap swings open -->
+            <div class="env-glow" id="env-glow" aria-hidden="true"></div>
+
+            <!-- Full letter — initially peeks above the body; slides out on open -->
+            <div class="env-letter" id="env-letter" aria-hidden="true">
+              <p class="env-letter__to">For Booboo</p>
+              <p class="env-letter__wish">Happy Birthday ❤️</p>
+              <span class="env-letter__rule" aria-hidden="true"></span>
+              <p class="env-letter__body">
+                On this beautiful day,<br>
+                I want you to know<br>
+                how deeply you are loved.
+              </p>
+              <p class="env-letter__sign">With all my heart ♡</p>
+            </div>
+
+            <!-- Envelope body (left / right / bottom fold faces) -->
+            <div class="env-body" id="env-body" aria-hidden="true">
+              <div class="env-body__face env-body__face--left"></div>
+              <div class="env-body__face env-body__face--right"></div>
+              <div class="env-body__face env-body__face--bottom"></div>
+            </div>
+
+            <!-- Top flap — rotates fully open in 3-D on click -->
+            <div class="env-flap" id="env-flap" aria-hidden="true">
+              <div class="env-seal" id="env-seal">
+                <span class="env-seal__heart">❤</span>
+              </div>
+            </div>
+
+          </div><!-- /env-tilt -->
+
+          <div class="env-shadow" id="env-shadow" aria-hidden="true"></div>
+        </div><!-- /env-float -->
+      </div><!-- /env-zoom -->
+
+    </div><!-- /env-scene -->
+
+    <!-- Appears after the envelope finishes opening -->
+    <button class="env-close" id="env-close" aria-label="Close envelope" hidden>
+      &#10005;&ensp;Close
+    </button>
+  </section>
+
+  <!-- ====== COUNTDOWN / AGE BANNER ====== -->
+  <section id="countdown" class="countdown section">
+    <div class="container">
+      <h2 class="section-title reveal">Another Beautiful Year</h2>
+      <div class="countdown__grid">
+        <div class="countdown__card reveal">
+          <span class="countdown__number" id="cd-days">00</span>
+          <span class="countdown__label">Days Since<br>Last Birthday</span>
+        </div>
+        <div class="countdown__card reveal">
+          <span class="countdown__number" id="cd-hours">00</span>
+          <span class="countdown__label">Hours of<br>Joy</span>
+        </div>
+        <div class="countdown__card reveal">
+          <span class="countdown__number" id="cd-minutes">00</span>
+          <span class="countdown__label">Minutes of<br>Wonder</span>
+        </div>
+        <div class="countdown__card reveal">
+          <span class="countdown__number" id="cd-seconds">00</span>
+          <span class="countdown__label">Seconds of<br>Magic</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== MESSAGE ====== -->
+  <section id="message" class="message section">
+    <div class="container container--narrow">
+      <div class="message__quote reveal">
+        <span class="message__quotemark">&ldquo;</span>
+        <p class="message__body">
+          In all the world, in all of time, there is no one quite like you.
+          You carry light in your laughter, warmth in your silence,
+          and magic in everything you touch.
+          Today, the universe celebrates the day you arrived&mdash;
+          and so do I, with every beat of my heart.
+        </p>
+        <span class="message__quotemark message__quotemark--close">&rdquo;</span>
+      </div>
+      <p class="message__signature reveal">With all my love</p>
+    </div>
+  </section>
+
+  <!-- ====== TIMELINE ====== -->
+  <section id="timeline" class="timeline section">
+    <div class="container">
+      <h2 class="section-title reveal">Our Story</h2>
+      <div class="timeline__track">
+
+        <div class="timeline__item reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__card">
+            <span class="timeline__date">Chapter One</span>
+            <h3 class="timeline__heading">The First Hello</h3>
+            <p class="timeline__text">Some moments arrive quietly and change everything. That was ours.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item timeline__item--right reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__card">
+            <span class="timeline__date">Chapter Two</span>
+            <h3 class="timeline__heading">Every Little Laugh</h3>
+            <p class="timeline__text">The inside jokes, the late nights, the moments only we will ever understand.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__card">
+            <span class="timeline__date">Chapter Three</span>
+            <h3 class="timeline__heading">Adventures Together</h3>
+            <p class="timeline__text">Every road is shorter, every sky wider, every memory brighter — with you.</p>
+          </div>
+        </div>
+
+        <div class="timeline__item timeline__item--right reveal">
+          <div class="timeline__dot"></div>
+          <div class="timeline__card">
+            <span class="timeline__date">Today &amp; Always</span>
+            <h3 class="timeline__heading">A New Chapter</h3>
+            <p class="timeline__text">Here&rsquo;s to every page still unwritten, every sunrise still unseen.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PHOTO GALLERY ====== -->
+  <section id="gallery" class="gallery section">
+    <div class="container">
+      <h2 class="section-title reveal">Moments in Time</h2>
+      <p class="section-sub reveal">Add your photos to the <code>/photos</code> folder and update the gallery below.</p>
+      <div class="gallery__grid" id="gallery-grid">
+        <!-- Placeholder cards — replace src with real photos -->
+        <div class="gallery__item reveal" style="--delay:.0s">
+          <div class="gallery__img-wrap">
+            <img src="photos/photo1.jpg" alt="Memory 1" loading="lazy" onerror="this.closest('.gallery__item').classList.add('gallery__item--placeholder')" />
+            <div class="gallery__placeholder-icon">&#10084;</div>
+          </div>
+        </div>
+        <div class="gallery__item reveal" style="--delay:.08s">
+          <div class="gallery__img-wrap">
+            <img src="photos/photo2.jpg" alt="Memory 2" loading="lazy" onerror="this.closest('.gallery__item').classList.add('gallery__item--placeholder')" />
+            <div class="gallery__placeholder-icon">&#9733;</div>
+          </div>
+        </div>
+        <div class="gallery__item reveal" style="--delay:.16s">
+          <div class="gallery__img-wrap">
+            <img src="photos/photo3.jpg" alt="Memory 3" loading="lazy" onerror="this.closest('.gallery__item').classList.add('gallery__item--placeholder')" />
+            <div class="gallery__placeholder-icon">&#10084;</div>
+          </div>
+        </div>
+        <div class="gallery__item reveal" style="--delay:.24s">
+          <div class="gallery__img-wrap">
+            <img src="photos/photo4.jpg" alt="Memory 4" loading="lazy" onerror="this.closest('.gallery__item').classList.add('gallery__item--placeholder')" />
+            <div class="gallery__placeholder-icon">&#9733;</div>
+          </div>
+        </div>
+        <div class="gallery__item reveal" style="--delay:.32s">
+          <div class="gallery__img-wrap">
+            <img src="photos/photo5.jpg" alt="Memory 5" loading="lazy" onerror="this.closest('.gallery__item').classList.add('gallery__item--placeholder')" />
+            <div class="gallery__placeholder-icon">&#10084;</div>
+          </div>
+        </div>
+        <div class="gallery__item reveal" style="--delay:.40s">
+          <div class="gallery__img-wrap">
+            <img src="photos/photo6.jpg" alt="Memory 6" loading="lazy" onerror="this.closest('.gallery__item').classList.add('gallery__item--placeholder')" />
+            <div class="gallery__placeholder-icon">&#9733;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+      <button class="lightbox__close" id="lightbox-close" aria-label="Close">&times;</button>
+      <button class="lightbox__nav lightbox__nav--prev" id="lb-prev" aria-label="Previous">&#8592;</button>
+      <img class="lightbox__img" id="lightbox-img" src="" alt="" />
+      <button class="lightbox__nav lightbox__nav--next" id="lb-next" aria-label="Next">&#8594;</button>
+    </div>
+  </section>
+
+  <!-- ====== MUSIC PLAYER ====== -->
+  <section id="music" class="music section">
+    <div class="container container--narrow">
+      <h2 class="section-title reveal">Our Soundtrack</h2>
+      
+      <div class="player reveal">
+        <div class="player__disc" id="player-disc">
+          <div class="player__disc-inner"></div>
+        </div>
+        <div class="player__info">
+          <p class="player__track-name" id="track-name">Add your song</p>
+          <p class="player__track-artist" id="track-artist">Artist name here</p>
+        </div>
+        <div class="player__progress-wrap">
+          <span class="player__time" id="time-current">0:00</span>
+          <input type="range" class="player__progress" id="progress-bar" min="0" max="100" value="0" aria-label="Seek" />
+          <span class="player__time" id="time-total">0:00</span>
+        </div>
+        <div class="player__controls">
+          <button class="player__btn player__btn--prev" id="btn-prev" aria-label="Previous track">&#9664;&#9664;</button>
+          <button class="player__btn player__btn--play" id="btn-play" aria-label="Play / Pause">
+            <span class="icon-play">&#9654;</span>
+            <span class="icon-pause" hidden>&#10074;&#10074;</span>
+          </button>
+          <button class="player__btn player__btn--next" id="btn-next" aria-label="Next track">&#9654;&#9654;</button>
+        </div>
+        <div class="player__volume-wrap">
+          <span class="player__vol-icon">&#9834;</span>
+          <input type="range" class="player__volume" id="volume-bar" min="0" max="1" step="0.01" value="0.7" aria-label="Volume" />
+        </div>
+        <ul class="player__playlist" id="playlist"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== WISHES ====== -->
+  <section id="wishes" class="wishes section">
+    <div class="container container--narrow">
+      <h2 class="section-title reveal">Wishes for You</h2>
+      <div class="wishes__grid">
+        <div class="wish-card reveal">
+          <div class="wish-card__icon">&#127774;</div>
+          <h3 class="wish-card__title">Endless Joy</h3>
+          <p class="wish-card__text">May every morning greet you with sunlight and every evening with peace.</p>
+        </div>
+        <div class="wish-card reveal">
+          <div class="wish-card__icon">&#127381;</div>
+          <h3 class="wish-card__title">Bold Dreams</h3>
+          <p class="wish-card__text">May your ambitions soar higher than you ever imagined possible.</p>
+        </div>
+        <div class="wish-card reveal">
+          <div class="wish-card__icon">&#10084;</div>
+          <h3 class="wish-card__title">Deep Love</h3>
+          <p class="wish-card__text">May you always feel cherished, seen, and adored — especially by me.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__text">Made with love &hearts; just for you.</p>
+      <p class="footer__year" id="footer-year"></p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
