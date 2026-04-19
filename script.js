@@ -56,6 +56,8 @@ function initBgMusic() {
   audio.loop   = true;
   audio.volume = CONFIG.bgMusic.volume ?? 0.3;
 
+  const TARGET_VOL = CONFIG.bgMusic.volume ?? 0.3;
+
   audio.fadeOut = function () {
     if (audio.paused) return;
     const start = audio.volume;
@@ -70,6 +72,19 @@ function initBgMusic() {
         audio.volume = 0;
       }
     }, 20);  // 15 steps × 20ms = 300ms total
+  };
+
+  audio.fadeIn = function () {
+    if (!audio.paused) return;
+    audio.volume = 0;
+    audio.play().catch(() => {});
+    let i = 0;
+    const STEPS = 20;
+    const tick = setInterval(() => {
+      i++;
+      audio.volume = Math.min(TARGET_VOL, TARGET_VOL * (i / STEPS));
+      if (i >= STEPS) clearInterval(tick);
+    }, 40);  // 20 steps × 40ms = 800ms fade-in
   };
 
   bgAudio = audio;
@@ -616,6 +631,7 @@ function initPlayer() {
     isPlaying = false;
     updatePlayBtn();
     disc.classList.remove('spinning');
+    bgAudio?.fadeIn?.();
   }
 
   function updatePlayBtn() {
