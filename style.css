@@ -1149,8 +1149,8 @@ code { font-size: var(--fs-sm); color: var(--clr-gold); }
   left: 50%;
   transform: translateX(-50%);
   width:  calc(var(--env-w) - 22px);
-  /* Tall enough to hold all content; most is hidden behind env-body */
-  height: calc(var(--env-peek) + var(--env-h));
+  /* min-height keeps sealed look; content can grow to fit all text */
+  min-height: calc(var(--env-peek) + var(--env-h));
   z-index: 1;
   border-radius: 2px;
   overflow: hidden;
@@ -1242,6 +1242,7 @@ code { font-size: var(--fs-sm); color: var(--clr-gold); }
   color: var(--clr-rose);
   text-align: center;
   margin-top: 8px;
+  padding-bottom: 20px;
   opacity: 0;
   transform: translateY(8px);
   transition: opacity 0.6s ease 0s, transform 0.6s ease 0s;
