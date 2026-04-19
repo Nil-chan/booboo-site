@@ -57,16 +57,19 @@ function initBgMusic() {
   audio.volume = CONFIG.bgMusic.volume ?? 0.3;
 
   audio.fadeOut = function () {
-    const step = audio.volume / 20;       // 20 steps over ~1.6 s
+    if (audio.paused) return;
+    const start = audio.volume;
+    let i = 0;
+    const STEPS = 15;
     const tick = setInterval(() => {
-      if (audio.volume <= step) {
+      i++;
+      audio.volume = Math.max(0, start * (1 - i / STEPS));
+      if (i >= STEPS) {
         clearInterval(tick);
         audio.pause();
         audio.volume = 0;
-      } else {
-        audio.volume = Math.max(0, audio.volume - step);
       }
-    }, 80);
+    }, 20);  // 15 steps × 20ms = 300ms total
   };
 
   bgAudio = audio;
